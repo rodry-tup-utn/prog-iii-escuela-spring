@@ -1,5 +1,4 @@
-# prog-iii-escuela-spring
-# prog-iii-escuela-spring
-# prog-iii-escuela-spring
-# prog-iii-escuela-spring
-# prog-iii-escuela-spring
+# Practica Escuela con SpringBoot
+## Programacion III 
+## Comision 3
+## Ramirez Rodrigo
