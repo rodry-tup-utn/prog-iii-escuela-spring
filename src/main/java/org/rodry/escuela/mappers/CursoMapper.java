@@ -1,11 +1,11 @@
 package org.rodry.escuela.mappers;
 
-import org.rodry.escuela.dto.CursoDTO;
-import org.rodry.escuela.dto.CursoSimpleDTO;
-import org.rodry.escuela.dto.EstudianteDTO;
-import org.rodry.escuela.dto.ProfesorDTO;
+import org.rodry.escuela.dto.curso.CursoDTO;
+import org.rodry.escuela.dto.estudiante.EstudianteDTO;
+import org.rodry.escuela.dto.profesor.ProfesorDTO;
 import org.rodry.escuela.entities.Curso;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,40 +14,24 @@ import java.util.stream.Collectors;
 @Component
 public class CursoMapper {
     @Autowired
+    @Lazy
     private EstudianteMapper estudianteMapper;
     @Autowired
     private ProfesorMapper profesorMapper;
 
     public CursoDTO toDto(Curso curso) {
-        if (curso == null) {
-            return null;
-        }
 
         ProfesorDTO profesorDto = profesorMapper.toDto(curso.getProfesor());
 
         List<EstudianteDTO> estudiantesDTO = curso.getEstudiantes()
                 .stream()
-                .map(estudianteMapper::toEstudianteDto)
+                .map(estudianteMapper::toDto)
                 .collect(Collectors.toList());
 
-        CursoDTO cursoDto = new CursoDTO();
-        cursoDto.setId(curso.getId());
-        cursoDto.setNombre(curso.getNombre());
-        cursoDto.setProfesor(profesorDto);
-        cursoDto.setEstudiantes(estudiantesDTO);
-
-        return cursoDto;
+        return new CursoDTO(
+                curso.getId(),
+                curso.getNombre(),
+                profesorDto,
+                estudiantesDTO);
     }
-    public CursoSimpleDTO toSimpleDto(Curso curso) {
-
-        if (curso == null) {
-            return null;
-        }
-        CursoSimpleDTO cursoDto = new CursoSimpleDTO();
-        cursoDto.setId(curso.getId());
-        cursoDto.setNombre(curso.getNombre());
-        cursoDto.setProfesor(profesorMapper.toDto(curso.getProfesor()));
-        return cursoDto;
-    }
-
 }

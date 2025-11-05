@@ -1,10 +1,9 @@
 package org.rodry.escuela.controllers;
 
-import org.rodry.escuela.dto.CreateEstudianteDTO;
-import org.rodry.escuela.dto.CursoDTO;
-import org.rodry.escuela.dto.CursoSimpleDTO;
-import org.rodry.escuela.dto.EstudianteDTO;
-import org.rodry.escuela.service.EstudianteService;
+import org.rodry.escuela.dto.curso.CursoDTO;
+import org.rodry.escuela.dto.estudiante.CreateEstudianteDTO;
+import org.rodry.escuela.dto.estudiante.EstudianteDTO;
+import org.rodry.escuela.service.EstudianteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +14,11 @@ import java.util.Set;
 @RequestMapping("/api/estudiantes")
 public class EstudianteController {
     @Autowired
-    private EstudianteService estudianteService;
+    private EstudianteServiceImpl estudianteService;
 
     @GetMapping
     public List<EstudianteDTO> getAllEstudiantes(){
-        return estudianteService.getAllEstudiantes();
+        return estudianteService.findAll();
     }
 
     @PostMapping
@@ -28,7 +27,7 @@ public class EstudianteController {
     }
 
     @GetMapping("/{id}/cursos")
-    public Set<CursoSimpleDTO> getCursos(@PathVariable Long id){
+    public Set<CursoDTO> getCursos(@PathVariable Long id){
         return estudianteService.getAllCursos(id);
     }
 }
